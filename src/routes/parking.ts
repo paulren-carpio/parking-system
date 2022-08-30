@@ -27,6 +27,14 @@ router.route("/:isParking").put(async (req: Request, res: Response) => {
       result = await _parkingController.unPark(req.body);
     }
 
+    if (_.isEmpty(result["list"])) {
+      if (isParking === "1") {
+        return res.status(404).send("No available slot!");
+      } else {
+        return res.status(404).send("No vehicle parked on that slot!");
+      }
+    }
+
     return res.status(200).send(result);
   } catch (error) {
     return res.status(500);
