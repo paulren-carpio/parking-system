@@ -58,8 +58,8 @@ Please develop in Node JS/Typescript. You will be required to explain your appro
 
 
 
-Installation
+## Installation
 
-npm install
+```npm install```
 
 ## Running the project
