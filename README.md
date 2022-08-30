@@ -54,12 +54,80 @@ Please develop in Node JS/Typescript. You will be required to explain your appro
 ```
 
 
-## Requirements
-
+## Pre-requisites
+- Install [Node.js](https://nodejs.org/en/)
+- MySQL
 
 
 ## Installation
 
-```npm install```
+- Clone the repository
+
+``git clone https://github.com/paulren-carpio/parking-system.git``
+
+
+- Install dependencies
+
+```
+cd parking-system
+npm install
+```
+
+## Getting started
+
+1. Create database and table
+```
+create database parking;
+
+create table parking.parking_space (
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+    `slot_number` int(11) NOT NULL,
+    `max_allowed_size` char(2) NOT NULL,
+    `is_available` tinyint(1) NOT NULL DEFAULT 1,
+    `vehicle_size` char(1),
+    `creation_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `update_date` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
+```
+
+2. Run seeder to generate records to the table.
+```
+npm run seed:run
+```
 
 ## Running the project
+
+Build and run the project
+```
+npm run start
+```
+
+
+Using API Tester like Insomnia add the following APIs to test the app:
+
+1. Park a vehicle - `PUT http://localhost:5000/parking-system/parking/1`
+Paremeters e.g:
+
+```
+[
+	{
+		"vehicleSize" : "L",
+		"gate" : "B"
+	}
+]
+```
+
+2. Unpark a vehicle  - `PUT http://localhost:5000/parking-system/parking/0`
+Paremeters e.g:
+```
+[
+	{
+		"totalHours" : 23,
+		"slotNumber" : 13
+	}
+]
+```
+
+3. To view parking map - `GET http://localhost:5000/parking-system/parking`
+
