@@ -2,12 +2,12 @@ import { ParkingRepository } from "../repositories/ParkingRepository";
 
 export class ParkingController {
   /**
-   * Assigned slot
+   * Assigned a slot
    * @param params
    */
   async park(params: any) {
-    const _parkngRepo = new ParkingRepository();
-    const slots = await _parkngRepo.park(params);
+    const _parkingRepo = new ParkingRepository();
+    const slots = await _parkingRepo.park(params);
 
     const data = {
       list: slots,
@@ -21,8 +21,8 @@ export class ParkingController {
    * @param params
    */
   async unPark(params: any) {
-    const _parkngRepo = new ParkingRepository();
-    const slots = await _parkngRepo.unPark(params);
+    const _parkingRepo = new ParkingRepository();
+    const slots = await _parkingRepo.unPark(params);
 
     const data = {
       list: slots,
@@ -37,10 +37,10 @@ export class ParkingController {
    */
   async viewParking() {
     const _parkingRepo = new ParkingRepository();
-    const languages = await _parkingRepo.viewParking();
+    const slots = await _parkingRepo.viewParking();
 
     const data = {
-      list: languages,
+      list: slots,
     };
 
     return data;
