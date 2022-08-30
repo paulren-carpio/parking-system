@@ -1,5 +1,4 @@
 import { ParkingRepositoryFactory } from "../factories/ParkingRepositoryFactory";
-import { In } from "typeorm";
 import { generateParkingMap } from "../utils/generate-parking-map";
 import { getNearestAvailableSlot, getParkingFee } from "../utils/formulas";
 import _ from "lodash";
@@ -25,7 +24,6 @@ export class ParkingRepository {
       await ParkingRepositoryFactory.createInstance();
 
     const { vehicleSize, gate } = params[0];
-
     const list = await parkingRepositoryFactory.find();
 
     if (_.isEmpty(list)) {
@@ -39,13 +37,16 @@ export class ParkingRepository {
     );
 
     if (!_.isEmpty(nearestAvailableSlot)) {
-      const { id } = nearestAvailableSlot;
+      const { id, slotNumber } = nearestAvailableSlot;
 
       return await parkingRepositoryFactory.save({
         id,
+        slotNumber,
         isAvailable: 0,
         vehicleSize,
       });
+    } else {
+      return [];
     }
   }
 
@@ -67,7 +68,7 @@ export class ParkingRepository {
     });
 
     if (_.isEmpty(list)) {
-      return []; //no vehicle parked on that slot!
+      return [];
     }
 
     const totalParkingFee = getParkingFee(totalHours, list.vehicleSize) || 0;
@@ -92,6 +93,10 @@ export class ParkingRepository {
         slotNumber: "ASC",
       },
     });
+
+    if (_.isEmpty(list)) {
+      return [];
+    }
 
     generateParkingMap(list);
 
