@@ -25,7 +25,7 @@ export const getNearestAvailableSlot = (
   list = []
 ) => {
   const slotDistance = [];
-  const maxAllowedSize =
+  const maxAllowedSizes =
     vehicleSize === "S"
       ? ["SP", "MP", "LP"]
       : vehicleSize === "M"
@@ -49,10 +49,11 @@ export const getNearestAvailableSlot = (
         const lst = list[slotNum + slot + row - 1];
 
         if (!_.isEmpty(lst)) {
-          const { id, isAvailable, maxAllowedSize } = lst;
+          const { id, slotNumber, isAvailable, maxAllowedSize } = lst;
 
           slotDistance.push({
             id,
+            slotNumber,
             distance: row + val + 1,
             column: entry === 0 ? "A" : entry === 1 ? "B" : "C",
             isAvailable,
@@ -64,7 +65,9 @@ export const getNearestAvailableSlot = (
   }
 
   const newVal = _.filter(slotDistance, (lst) => {
-    return lst.isAvailable === 1 && maxAllowedSize.includes(lst.maxAllowedSize);
+    return (
+      lst.isAvailable === 1 && maxAllowedSizes.includes(lst.maxAllowedSize)
+    );
   });
 
   return _.orderBy(
